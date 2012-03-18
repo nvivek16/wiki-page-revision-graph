@@ -1,0 +1,58 @@
+<html>
+<script type="text/javascript" src="jquery-1.5.1.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+alert("hello");
+$.getJSON("http://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=json&rvprop=timestamp%7Csize&rvlimit=100&titles=Kapil_Sibal&callback=?",function(data){
+console.log(data);
+data1=data["query"]["pages"];
+var getKeys =function(obj){
+   var keys = [];
+   for(var key in obj){
+      keys.push(key);
+   }
+   return keys;
+}
+var keys=getKeys(data1);
+var timestamp=[];
+var i=0;
+	for(var key in data1[keys]["revisions"]){
+	timestamp.push(data1[keys]["revisions"][key]["timestamp"]);
+	}
+var count=[0,0,0,0,0,0,0,0,0,0,0,0];
+var count1=[0,0,0,0,0,0,0,0,0,0,0,0];
+var months=[];
+var year=[];
+for(i in timestamp){
+	
+	var j=new Date(timestamp[i]).getMonth();
+	var k=new Date(timestamp[i]).getFullYear();	
+	months.push(j);
+	year.push(k);
+}	
+var j1=new Date().getMonth();
+var k1=new Date().getFullYear();
+for(i in count1)
+	{
+	if(i<=j1)
+	{
+		count1[i]=k1;
+	}
+	else
+	{
+		count1[i]=k1-1;
+	}
+	}
+for(i in months){
+	if(year[i]==count1[months[i]])
+		count[months[i]]+=1
+	}
+i=0;
+var c1=count.slice(0,j1+1);
+var c2=count.slice(j1+1,12);
+var fin=c2.concat(c1);
+alert(fin);
+});
+});
+</script>
+</html>
